@@ -53,8 +53,8 @@ const Home = () => {
         <div className="absolute inset-0 z-0">
           <img 
             src={heroImage} 
-            alt="Professional media production studio" 
-            className="w-full h-full object-cover opacity-50"
+            alt="Live media production alongside AI workflow and chatbot dashboards" 
+            className="hero-image-motion w-full h-full object-cover opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background/95"></div>
         </div>

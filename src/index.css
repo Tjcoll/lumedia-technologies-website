@@ -92,6 +92,13 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -119,5 +126,119 @@ All colors MUST be HSL.
 
   .text-gradient {
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .navigation-progress {
+    position: fixed;
+    inset: 0 auto auto 0;
+    z-index: 100;
+    height: 3px;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms ease;
+  }
+
+  .navigation-progress::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
+    box-shadow: 0 0 14px hsl(var(--primary) / 0.65);
+    transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .navigation-progress.is-active {
+    opacity: 1;
+  }
+
+  .navigation-progress.is-active::before {
+    width: 78%;
+  }
+
+  .page-transition {
+    animation: page-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .scroll-reveal {
+    transition:
+      opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .motion-enabled .scroll-reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(22px) scale(0.99);
+    filter: blur(2px);
+  }
+
+  .gradient-card {
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 250ms ease,
+      box-shadow 320ms ease;
+  }
+
+  .motion-enabled .gradient-card.is-visible:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px hsl(var(--primary) / 0.09);
+  }
+
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    position: absolute;
+    right: 1rem;
+    bottom: 0.35rem;
+    left: 1rem;
+    height: 2px;
+    content: "";
+    border-radius: 999px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  .hero-image-motion {
+    animation: gentle-zoom 24s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gentle-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.055); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .motion-enabled .scroll-reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }

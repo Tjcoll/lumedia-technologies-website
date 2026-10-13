@@ -41,8 +41,9 @@ export const Navigation = () => {
               <Link
                 key={link.path}
                 to={link.path}
+                aria-current={location.pathname === link.path ? "page" : undefined}
                 className={cn(
-                  "px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary",
+                  "nav-link px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary",
                   location.pathname === link.path
                     ? "text-primary"
                     : "text-muted-foreground"
@@ -65,6 +66,8 @@ export const Navigation = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden p-2 text-foreground"
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isOpen}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
